@@ -38,11 +38,14 @@ fn main() {
 
     // Capture user input for total possible cubes
     let mut pos_green_cube = String::new();
-    let mut pos_red_cube = String::new();;
-    let mut pos_blue_cube = String::new();;
+    let mut pos_red_cube = String::new();
+    let mut pos_blue_cube = String::new();
 
+    ask_for_cube("green".to_string());
     io::stdin().read_line(&mut pos_green_cube).expect("failed to green line");
+    ask_for_cube("red".to_string());
     io::stdin().read_line(&mut pos_red_cube).expect("failed to red line");
+    ask_for_cube("blue".to_string());
     io::stdin().read_line(&mut pos_blue_cube).expect("failed to blue line");
 
     let mut green_cube = 0;
@@ -111,4 +114,9 @@ fn get_cube_draw(cube_draw: &str) -> HashMap<&str, i32> {
 
 fn get_max(item1: i32, item2: i32) -> i32 {
     if item1 < item2 { return item2 } else { return item1 }
+}
+
+fn ask_for_cube(color: String) {
+    print!("Enter your number of {} cubes", color);
+    io::Write::flush(&mut io::stdout()).expect("flush failed!");
 }
