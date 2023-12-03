@@ -6,9 +6,16 @@ use std::collections::HashMap;
 fn main() {
 
     let contents = fs::read_to_string("input1.txt").unwrap();
+
+    print!("Reading input file...\n");
+    io::Write::flush(&mut io::stdout()).expect("flush failed!");
+
     let games: Vec<String> = contents.lines().map(String::from).collect();
     let mut game_max_colors = HashMap::new();
     
+    print!("Processing input file...\n");
+    io::Write::flush(&mut io::stdout()).expect("flush failed!");
+
     // Process each game
     for game in games {
         // Split Game ID from game information
@@ -64,16 +71,20 @@ fn main() {
         Err(_msg) => { print!("\nno blue") }
     }
 
+    answer_the_elf(&mut game_max_colors, green_cube, red_cube, blue_cube);
+}
+
+fn answer_the_elf(game_board: &mut HashMap<i32, HashMap<&str, i32>>, green_cubes: i32, red_cubes: i32, blue_cubes: i32) {
     let mut game_ids: Vec<i32> = vec![];
     let mut powers: Vec<i32> = vec![];
-    for (id, &mut ref thing) in game_max_colors.iter_mut() {
+    for (id, &mut ref thing) in game_board.iter_mut() {
         let green = *thing.get("green").unwrap_or(&0);
         let red = *thing.get("red").unwrap_or(&0);
         let blue = *thing.get("blue").unwrap_or(&0);
         print!("\n Actuals Green: {} Red: {} Blue: {}", green, red, blue);
 
         // Get possible games
-        if green  <= green_cube && red <= red_cube && blue <= blue_cube {
+        if green  <= green_cubes && red <= red_cubes && blue <= blue_cubes {
             game_ids.push(*id);
         }
         
@@ -117,6 +128,6 @@ fn get_max(item1: i32, item2: i32) -> i32 {
 }
 
 fn ask_for_cube(color: String) {
-    print!("Enter your number of {} cubes", color);
+    print!("Enter your number of {} cubes - ", color);
     io::Write::flush(&mut io::stdout()).expect("flush failed!");
 }
